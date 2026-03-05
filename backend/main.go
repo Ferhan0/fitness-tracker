@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/Ferhan0/fitness-tracker/initializers"
+	"github.com/Ferhan0/fitness-tracker/routes"
+	"github.com/gin-gonic/gin"
 )
 
 func init() {
@@ -11,5 +13,7 @@ func init() {
 }
 
 func main() {
-
+	router := gin.Default()
+	routes.SetupRoutes(router)
+	router.Run()
 }
