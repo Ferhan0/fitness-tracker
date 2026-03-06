@@ -46,6 +46,25 @@ func GetWorkouts(c *gin.Context) {
 
 func UpdateWorkout(c *gin.Context) {
 
+	id := c.Param("id")
+
+	var body struct {
+		Title string
+		Date  string
+		Notes string
+	}
+	if c.Bind(&body) != nil {
+		c.JSON(400, gin.H{
+			"error": "Failed to read body",
+		})
+		return
+	}
+
+	var workout models.Workout
+	initializers.DB.First(&workout, id)
+
+	initializers.DB.Model(&workout).Updates(models.Workout{Title: body.Title, Date: body.Date, Notes: body.Notes})
+	c.JSON(200, gin.H{"workout": workout})
 }
 
 func DeleteWorkout(c *gin.Context) {
