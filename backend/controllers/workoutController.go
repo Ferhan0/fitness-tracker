@@ -36,6 +36,12 @@ func CreateWorkout(c *gin.Context) {
 
 func GetWorkouts(c *gin.Context) {
 
+	user, _ := c.Get("user")
+	currentUser := user.(models.User)
+	var workouts []models.Workout
+	initializers.DB.Where("user_id = ?", currentUser.ID).Find(&workouts)
+	c.JSON(200, gin.H{"workouts": workouts})
+
 }
 
 func UpdateWorkout(c *gin.Context) {
